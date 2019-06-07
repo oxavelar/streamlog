@@ -31,7 +31,7 @@
 
 /*
  * Example for redirecting the 3 streams of "cout", "clog", "cerr"
- * into a console screen and a logfile:
+ * into a console screen and a logfile, make streams buffered:
  *
  *   auto screen = spdlog::stdout_color_st("console");
  *   auto logger = spdlog::basic_logger_st("logfile", cmd.logfile);
@@ -41,9 +41,14 @@
  *   screen->set_level(spdlog::level::debug);
  *   logger->set_level(spdlog::level::debug);
  *
- *    streamlog redirector_cout(std::cout, streamlog::loglevel::info);
- *    streamlog redirector_clog(std::clog, streamlog::loglevel::debug);
- *    streamlog redirector_cerr(std::cerr, streamlog::loglevel::error);
+ *   streamlog redirector_cout(std::cout, streamlog::loglevel::info);
+ *   streamlog redirector_clog(std::clog, streamlog::loglevel::debug);
+ *   streamlog redirector_cerr(std::cerr, streamlog::loglevel::error);
+ *
+ *   std::cout << std::nounitbuf;
+ *   std::clog << std::nounitbuf;
+ *   std::cerr << std::nounitbuf;
+ *
  */
 class streamlog: public std::streambuf
 {
