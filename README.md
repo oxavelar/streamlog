@@ -21,4 +21,8 @@ logger->set_level(spdlog::level::debug);
 streamlog redirector_cout(std::cout, streamlog::loglevel::info);
 streamlog redirector_clog(std::clog, streamlog::loglevel::debug);
 streamlog redirector_cerr(std::cerr, streamlog::loglevel::error);
+
+std::cout << std::nounitbuf;
+std::clog << std::nounitbuf;
+std::cerr << std::nounitbuf;
 ```
