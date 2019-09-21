@@ -24,6 +24,7 @@
 
 #pragma once
 #include <string>
+#include <memory>
 #include <streambuf>
 #include <functional>
 #include "spdlog/include/spdlog/spdlog.h"
@@ -63,7 +64,7 @@ class streamlog: public std::streambuf
             logger(spdlog::get("logfile"))
         {
             /* Redirect stream to streamlog */
-            stream = new std::ostream(srcbuf);
+            stream = std::unique_ptr<std::ostream>(new std::ostream(srcbuf));
             o.rdbuf(this);
 
             using namespace std::placeholders;
@@ -85,7 +86,6 @@ class streamlog: public std::streambuf
 
         ~streamlog()
         {
-            delete stream;
             src.rdbuf(srcbuf);
         }
 
@@ -111,7 +111,7 @@ class streamlog: public std::streambuf
 
     private:
         std::ostream &src;
-        std::ostream *stream;
+        std::unique_ptr<std::ostream> stream;
         std::streambuf * const srcbuf;
         const loglevel &level;
         const std::shared_ptr<spdlog::logger> screen;
